@@ -1,5 +1,6 @@
 package com.mehdiflix.mehdifilix.domain
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.GeneratedValue
 import jakarta.persistence.Id
@@ -11,6 +12,7 @@ import java.math.BigDecimal
 class Series(
     @Id @GeneratedValue
     var id: Long,
+    @Column(unique = true)
     var title: String,
     var description: String,
     var creators: List<String>,

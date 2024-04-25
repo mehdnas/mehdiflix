@@ -1,8 +1,8 @@
 package com.mehdiflix.mehdifilix.domain
 
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import java.math.BigDecimal
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -83,7 +83,7 @@ class UserTest {
                         SubscriptionType.STANDARD,
                         BigDecimal(0.5),
                         series[0],
-                        1, 1
+                        1, 2
                     )
                 )
             )
@@ -92,7 +92,74 @@ class UserTest {
     }
 
     @Test
-    fun test() {
+    fun billsTest() {
         assert(users[0].bills.map { it.total.toDouble() } == listOf(0.5, 1.0))
+    }
+
+    @Test
+    fun addSeriesToPersonalSpaceTest() {
+        assert(users[0].addedSeries.size == 1)
+        assert(users[0].pendingSeries.isEmpty())
+        addSeriesToUser()
+        assert(users[0].addedSeries.size == 2)
+        assert(users[0].pendingSeries.size == 1)
+        assert(users[0].pendingSeries[0].id == 1L)
+    }
+
+    @Test
+    fun viewEpisodeTest() {
+        assert(users[0].finishedSeries == emptyList<Series>())
+        addSeriesToUser()
+        assertThrows<User.SeriesNotAddedException> {
+            users[0].viewEpisode(
+                Series(2, "Serie3", "Description",
+                    listOf("c1", "c2"), listOf("a1", "a2"),
+                    SeriesType("Gold", BigDecimal(1.5)),
+                    mutableListOf(
+                        Season(4, 1, "Season1",
+                            listOf(
+                                Episode(8, 1, "E1", "BlaBla"),
+                            )
+                        ),
+                    )
+                ),
+                1, 1
+            )
+        }
+        assert(users[0].finishedSeries.isEmpty())
+        assert(users[0].startedSeries.size == 1)
+        users[0].viewEpisode(users[0].addedSeries[0], 1, 3)
+        assert(users[0].finishedSeries.size == 1)
+        assert(users[0].startedSeries.size == 0)
+        users[0].viewEpisode(users[0].addedSeries[1], 1, 2)
+        assert(users[0].finishedSeries.size == 1)
+        assert(users[0].pendingSeries.isEmpty())
+        assert(users[0].startedSeries.size == 1)
+        users[0].viewEpisode(users[0].addedSeries[1], 2, 3)
+        assert(users[0].finishedSeries.size == 2)
+        assert(users[0].pendingSeries.isEmpty())
+        assert(users[0].startedSeries.isEmpty())
+    }
+
+    private fun addSeriesToUser() {
+        users[0].addSeriesToPersonalSpace( Series(1, "Serie2", "Description",
+            listOf("c1", "c2"), listOf("a1", "a2"),
+            SeriesType("Gold", BigDecimal(1.5)),
+            mutableListOf(
+                Season(2, 1, "Season1",
+                    listOf(
+                        Episode(3, 1, "E1", "BlaBla"),
+                        Episode(4, 2, "E2", "BlaBla"),
+                    )
+                ),
+                Season(3, 2, "Season1",
+                    listOf(
+                        Episode(6, 1, "E1", "BlaBla"),
+                        Episode(7, 2, "E2", "BlaBla"),
+                        Episode(8, 3, "E3", "BlaBla"),
+                    )
+                )
+            )
+        ))
     }
 }
