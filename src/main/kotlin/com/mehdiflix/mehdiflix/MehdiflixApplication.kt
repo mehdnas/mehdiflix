@@ -1,11 +1,12 @@
-package com.mehdiflix.mehdifilix
+package com.mehdiflix.mehdiflix
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MehdifilixApplication
+class MehdiflixApplication
 
 fun main(args: Array<String>) {
-	runApplication<MehdifilixApplication>(*args)
+    runApplication<MehdiflixApplication>(*args)
 }
+

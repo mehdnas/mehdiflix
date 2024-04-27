@@ -1,4 +1,4 @@
-package com.mehdiflix.mehdifilix
+package com.mehdiflix.mehdiflix
 
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
@@ -6,7 +6,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 class ServletInitializer : SpringBootServletInitializer() {
 
 	override fun configure(application: SpringApplicationBuilder): SpringApplicationBuilder {
-		return application.sources(MehdifilixApplication::class.java)
+		return application.sources(MehdiflixApplication::class.java)
 	}
 
 }
