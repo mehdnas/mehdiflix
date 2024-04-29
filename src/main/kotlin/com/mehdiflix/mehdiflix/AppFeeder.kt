@@ -1,12 +1,8 @@
 package com.mehdiflix.mehdiflix
 
-import com.mehdiflix.mehdiflix.domain.Series
-import com.mehdiflix.mehdiflix.domain.SeriesType
-import com.mehdiflix.mehdiflix.domain.SubscriptionType
+import com.mehdiflix.mehdiflix.domain.*
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
-import com.mehdiflix.mehdiflix.domain.User
-import jakarta.transaction.Transactional
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
 import java.util.*
@@ -32,7 +28,12 @@ class AppFeeder(
             setOf("Creator One", "Creator Two"),
             setOf("Actor One", "Actor Two"),
             SeriesType.STANDARD,
-            mutableListOf(),
+            mutableListOf(
+                Season(1, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                )),
+            ),
         )
         val s2 = Series(
             "Jayal en su Natural Habitat",
@@ -40,7 +41,14 @@ class AppFeeder(
             setOf("Creator One", "Creator Two"),
             setOf("Actor One", "Actor Two"),
             SeriesType.SILVER,
-            mutableListOf(),
+            mutableListOf(
+                Season(1, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                    Episode(3, "E3", "Desc E3"),
+                    Episode(4, "E4", "Desc E4"),
+                )),
+            ),
         )
         val s3 = Series(
             "El Fichero de las Graficas",
@@ -48,7 +56,18 @@ class AppFeeder(
             setOf("Creator One", "Creator Two"),
             setOf("Actor One", "Actor Two"),
             SeriesType.GOLD,
-            mutableListOf(),
+            mutableListOf(
+                Season(1, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                    Episode(3, "E3", "Desc E3"),
+                )),
+                Season(2, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                    Episode(3, "E3", "Desc E3"),
+                ))
+            ),
         )
         sr.save(s1)
         sr.save(s2)
