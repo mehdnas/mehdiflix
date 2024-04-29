@@ -25,7 +25,6 @@ enum class SeriesType(val episodePrice: BigDecimal) {
 @Entity
 data class Season(
     var number: Int,
-    var description: String,
     @OneToMany(cascade = [CascadeType.ALL])
     var episodes: MutableList<Episode>,
     @Id @GeneratedValue
