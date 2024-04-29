@@ -9,7 +9,6 @@ data class Series (
     var description: String,
     var creators: Set<String>,
     var actors: Set<String>,
-    @ManyToOne(cascade = [CascadeType.PERSIST])
     var seriesType: SeriesType,
     @OneToMany(cascade = [CascadeType.ALL])
     var seasons: MutableList<Season>,
@@ -17,12 +16,11 @@ data class Series (
     var id: Long? = null,
 )
 
-@Entity
-data class SeriesType(
-    @Id
-    var name: String,
-    var episodePrice: BigDecimal,
-)
+enum class SeriesType(val episodePrice: BigDecimal) {
+    STANDARD(BigDecimal(0.5)),
+    SILVER(BigDecimal(0.75)),
+    GOLD(BigDecimal(1.5)),
+}
 
 @Entity
 data class Season(
