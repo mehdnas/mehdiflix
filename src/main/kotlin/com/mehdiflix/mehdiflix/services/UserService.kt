@@ -14,6 +14,8 @@ class UserService(val ur: UserRepository) {
 
     fun getAllUsers(): List<User> = ur.findAll()
 
+    fun getUser(username: String) = ur.findUserByUsername(username)
+
     fun addViewToUser(userId: Long, view: View): View {
         var user = ur.findById(userId).orElseThrow()
         view.timestamp = ZonedDateTime.now()

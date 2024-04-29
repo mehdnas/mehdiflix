@@ -13,4 +13,7 @@ class UserController(val us: UserService) {
 
     @GetMapping("")
     fun getAllUsers() = us.getAllUsers()
+
+    @GetMapping("/{username}")
+    fun getUser(@PathVariable username: String) = us.getUser(username)
 }
