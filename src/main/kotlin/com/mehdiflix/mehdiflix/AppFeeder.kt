@@ -107,12 +107,14 @@ class AppFeeder(
 
     private fun testUserRepository() {
 
-        val user = ur.findUserByUsername("mehdi")!!
+        val user = ur.findUserByUsername("mehdi").orElseThrow()
         assert(
             user.username == "mehdi" &&
             user.password == "m1234567" &&
             user.bankAccountIBAN == "ES0000000001" &&
             user.subscriptionType == SubscriptionType.STANDARD
         )
+
+        assert(ur.existsByUsername("tawny"))
     }
 }

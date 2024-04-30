@@ -1,5 +1,6 @@
 package com.mehdiflix.mehdiflix.services
 
+import com.mehdiflix.mehdiflix.domain.Series
 import com.mehdiflix.mehdiflix.domain.User
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service
 class UserService(val ur: UserRepository, val sr: SeriesRepository) {
 
     class NoUserWithIdException : RuntimeException()
+    class NoUserWithUserNameException : RuntimeException()
     class UsernameAlreadyExistsException : RuntimeException()
 
     fun addUser(user: User): User {
@@ -19,6 +21,13 @@ class UserService(val ur: UserRepository, val sr: SeriesRepository) {
     }
 
     fun getUser(username: String) = ur.findUserByUsername(username)
+        .orElseThrow { NoUserWithUserNameException() }
+    fun getUser(userId: Long) = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+
+    fun getAddedSeriesOfUser(userId: Long): List<Series> {
+        val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+        return user.addedSeries
+    }
 
     fun addSeriesToUser(userId: Long, seriesId: Long) {
         val series = sr.findById(seriesId).orElseThrow { NoSeriesWithIdException() }

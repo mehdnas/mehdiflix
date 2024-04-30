@@ -1,7 +1,7 @@
 package com.mehdiflix.mehdiflix.domain
 
 import com.fasterxml.jackson.annotation.JsonView
-import com.mehdiflix.mehdiflix.Views.NewUser
+import com.mehdiflix.mehdiflix.Views
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -11,27 +11,28 @@ import java.time.ZonedDateTime
 @Table(name = "User_") // So it does not conflict with the reserved name of H2 database (USER)
 data class User(
 
-    @Column(unique = true) @JsonView(NewUser::class)
+    @Column(unique = true) @JsonView(Views.Public::class)
     var username: String,
 
-    @JsonView(NewUser::class)
+    @JsonView(Views.Private::class)
     var password: String,
 
-    @JsonView(NewUser::class)
+    @JsonView(Views.Private::class)
     var bankAccountIBAN: String,
 
-    @JsonView(NewUser::class)
+    @JsonView(Views.Public::class)
     var subscriptionType: SubscriptionType,
 
     @ManyToMany
-    var addedSeries: MutableList<Series>,
+    var addedSeries: MutableList<Series> = mutableListOf(),
 
     @OneToMany(cascade = [CascadeType.ALL])
-    var views: MutableList<View>,
+    var views: MutableList<View> = mutableListOf(),
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonView(Views.WithId::class)
     var id: Long? = null,
 ) {
+
     val startedSeries: List<Series> get() {
         val finished = finishedSeries.toSet()
         return views.map { it.series }.distinct().filter { it !in finished }

@@ -1,5 +1,7 @@
 package com.mehdiflix.mehdiflix
 
 class Views {
-    interface NewUser
+    interface Public
+    interface WithId: Public
+    interface Private
 }
