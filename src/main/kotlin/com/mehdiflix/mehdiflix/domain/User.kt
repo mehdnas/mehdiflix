@@ -1,22 +1,34 @@
 package com.mehdiflix.mehdiflix.domain
 
+import com.fasterxml.jackson.annotation.JsonView
+import com.mehdiflix.mehdiflix.Views.NewUser
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDate
 import java.time.ZonedDateTime
 
 @Entity
-@Table(name = "MehdiflixUser") // So it does not conflict with the reserved name of H2 database (USER)
+@Table(name = "User_") // So it does not conflict with the reserved name of H2 database (USER)
 data class User(
-    @Column(unique = true)
+
+    @Column(unique = true) @JsonView(NewUser::class)
     var username: String,
+
+    @JsonView(NewUser::class)
     var password: String,
+
+    @JsonView(NewUser::class)
     var bankAccountIBAN: String,
+
+    @JsonView(NewUser::class)
     var subscriptionType: SubscriptionType,
+
     @ManyToMany
     var addedSeries: MutableList<Series>,
+
     @OneToMany(cascade = [CascadeType.ALL])
     var views: MutableList<View>,
+
     @Id @GeneratedValue
     var id: Long? = null,
 ) {
@@ -42,7 +54,7 @@ data class User(
         }.ifEmpty { listOf(Bill.empty(subscriptionType)) }
     }
 
-    fun addSeriesToPersonalSpace(series: Series) {
+    fun addSeries(series: Series) {
         addedSeries.add(series)
     }
 

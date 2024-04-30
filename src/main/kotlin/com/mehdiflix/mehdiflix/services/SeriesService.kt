@@ -7,7 +7,12 @@ import org.springframework.stereotype.Service
 @Service
 class SeriesService(val sr: SeriesRepository) {
 
+    class NoSeriesWithIdException : RuntimeException()
+
     fun addSeries(series: Series) = sr.save(series)
 
-    fun getAllSeries() = sr.findAll()
+    fun getAllSeries(): MutableList<Series> = sr.findAll()
+
+    fun getSeries(seriesId: Long) = sr.findById(seriesId)
+        .orElseThrow { NoSeriesWithIdException() }
 }

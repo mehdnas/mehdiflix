@@ -1,27 +1,39 @@
 package com.mehdiflix.mehdiflix.services
 
 import com.mehdiflix.mehdiflix.domain.User
-import com.mehdiflix.mehdiflix.domain.View
+import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
+import com.mehdiflix.mehdiflix.services.SeriesService.NoSeriesWithIdException
 import org.springframework.stereotype.Service
-import java.math.BigDecimal
-import java.time.ZonedDateTime
 
 @Service
-class UserService(val ur: UserRepository) {
+class UserService(val ur: UserRepository, val sr: SeriesRepository) {
 
-    fun addUser(user: User) = ur.save(user)
+    class NoUserWithIdException : RuntimeException()
+    class UsernameAlreadyExistsException : RuntimeException()
 
-    fun getAllUsers(): List<User> = ur.findAll()
+    fun addUser(user: User): User {
+        if (ur.existsByUsername(user.username))
+            throw UsernameAlreadyExistsException()
+        return ur.save(user)
+    }
 
     fun getUser(username: String) = ur.findUserByUsername(username)
 
-    fun addViewToUser(userId: Long, view: View): View {
-        var user = ur.findById(userId).orElseThrow()
-        view.timestamp = ZonedDateTime.now()
-        view.subscriptionType = user.subscriptionType
-        view.cost = BigDecimal(0.5)
-        user.views.add(view)
-        return ur.save(user).views.last()
+    fun addSeriesToUser(userId: Long, seriesId: Long) {
+        val series = sr.findById(seriesId).orElseThrow { NoSeriesWithIdException() }
+        val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+        user.addSeries(series)
+        ur.save(user)
+    }
+
+    fun addViewToUser(
+        userId: Long, seriesId: Long,
+        seasonNumber: Int, episodeNumber: Int
+    ) {
+        val series = sr.findById(seriesId).orElseThrow { NoSeriesWithIdException() }
+        val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+
+        user.viewEpisode(series, seasonNumber, episodeNumber)
     }
 }
