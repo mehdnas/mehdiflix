@@ -17,14 +17,14 @@ class AppFeeder(
     override fun run(vararg args: String) {
         feedSeries()
         feedUsers()
-
-        println("Application feeded")
+        testUserRepository()
+        println("Application fed")
     }
 
     private fun feedSeries() {
         val s1 = Series(
             "Tawny Ranking",
-            "Un Tawny owl Perdido en su Mundo",
+            "Un Tawny Owl Perdido en su Mundo",
             setOf("Creator One", "Creator Two"),
             setOf("Actor One", "Actor Two"),
             SeriesType.STANDARD,
@@ -106,38 +106,13 @@ class AppFeeder(
 
 
     private fun testUserRepository() {
-//        val dateParser = SimpleDateFormat("dd-MM-yyyy")
-//        var sample: Date? = null
-//        try {
-//            sample = dateParser.parse("00-01-2020")
-//        } catch (e: ParseException) {
-//            println("Crujo parseando fecha")
-//            e.printStackTrace()
-//        }
-//
-//        // Set<Viaje> viajes = vr.findByOrigenCiudadAndDestinoCiudad("Santander","Cadiz");
-//        var viajes: Set<Viaje?> = vr.findByOrigenAndDestino("Santander", "Cadiz")
-//
-//        println("Viajes recuperados = " + viajes.size)
-//
-//        for (v in viajes) {
-//            System.out.println("Viaje in " + v.getFecha())
-//        }
-//
-//        viajes = vr.findByOrigen_CiudadAndFechaBeforeOrderByPrecio("Santander", sample)
-//
-//        println("================================")
-//
-//        println("Viajes recuperados = " + viajes.size)
 
-
-        //		Usuario paco = ur.findByEmail("paco@carSharing.es");
-//
-//		System.out.println("Paco = " + paco.getNombre() + ":" + paco.getEmail());
-//
-//		Set<Usuario> usuarios = ur.findByFechaAltaAfter(sample);
-//		for(Usuario u : usuarios) {
-//			System.out.println("Usuario " + u.getNombre() + ":" + u.getEmail());
-//		}
+        val user = ur.findUserByUsername("mehdi")!!
+        assert(
+            user.username == "mehdi" &&
+            user.password == "m1234567" &&
+            user.bankAccountIBAN == "ES0000000001" &&
+            user.subscriptionType == SubscriptionType.STANDARD
+        )
     }
 }
