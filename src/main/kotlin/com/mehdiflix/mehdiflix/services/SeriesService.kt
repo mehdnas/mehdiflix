@@ -13,6 +13,6 @@ class SeriesService(val sr: SeriesRepository) {
 
     fun getAllSeries(): MutableList<Series> = sr.findAll()
 
-    fun getSeries(seriesId: Long) = sr.findById(seriesId)
+    fun getSeries(seriesId: Long): Series = sr.findById(seriesId)
         .orElseThrow { NoSeriesWithIdException() }
 }

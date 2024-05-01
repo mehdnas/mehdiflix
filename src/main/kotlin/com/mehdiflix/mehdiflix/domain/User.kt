@@ -84,14 +84,19 @@ enum class SubscriptionType(val fixedFee: BigDecimal) {
 
 @Entity
 data class View(
+    @JsonView(Views.Public::class)
     var seasonNumber: Int,
+    @JsonView(Views.Public::class)
     var episodeNumber: Int,
-    @ManyToOne
+    @ManyToOne @JsonView(Views.Public::class)
     var series: Series,
+    @JsonView(Views.Public::class)
     var timestamp: ZonedDateTime,
+    @JsonView(Views.Public::class)
     var subscriptionType: SubscriptionType,
+    @JsonView(Views.Public::class)
     var cost: BigDecimal,
-    @Id @GeneratedValue
+    @Id @GeneratedValue @JsonView(Views.WithId::class)
     var id: Long? = null,
 ) {
     val isOfLastEpisode: Boolean get() {
@@ -102,10 +107,14 @@ data class View(
 }
 
 data class Bill(
+    @JsonView(Views.Public::class)
     val date: LocalDate,
+    @JsonView(Views.Public::class)
     val views: List<View>,
+    @JsonView(Views.Public::class)
     val subscriptionType: SubscriptionType,
 ) {
+    @get:JsonView(Views.Public::class)
     val total: BigDecimal get() {
         val fixedFee = views.groupBy {
             it.subscriptionType

@@ -1,5 +1,6 @@
 package com.mehdiflix.mehdiflix.services
 
+import com.mehdiflix.mehdiflix.domain.Bill
 import com.mehdiflix.mehdiflix.domain.Series
 import com.mehdiflix.mehdiflix.domain.User
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
@@ -36,13 +37,18 @@ class UserService(val ur: UserRepository, val sr: SeriesRepository) {
         ur.save(user)
     }
 
+    fun getUserBills(userId: Long): List<Bill> {
+        val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+        return user.bills
+    }
+
     fun addViewToUser(
         userId: Long, seriesId: Long,
         seasonNumber: Int, episodeNumber: Int
     ) {
         val series = sr.findById(seriesId).orElseThrow { NoSeriesWithIdException() }
         val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
-
         user.viewEpisode(series, seasonNumber, episodeNumber)
+        ur.save(user)
     }
 }
