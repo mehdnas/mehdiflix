@@ -91,24 +91,18 @@ class AppFeeder(
             "m1234567",
             "ES0000000001",
             SubscriptionType.STANDARD,
-            mutableListOf(),
-            mutableListOf(),
         )
         val u2 = User(
             "jayal",
             "j1234567",
             "ES0000000002",
             SubscriptionType.PREMIUM,
-            mutableListOf(),
-            mutableListOf(),
         )
         val u3 = User(
             "tawny",
             "t1234567",
             "ES0000000003",
             SubscriptionType.STANDARD,
-            mutableListOf(),
-            mutableListOf(),
         )
         ur.save(u1)
         ur.save(u2)

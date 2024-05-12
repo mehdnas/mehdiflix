@@ -2,16 +2,13 @@ package com.mehdiflix.mehdiflix.controllers
 
 import com.fasterxml.jackson.annotation.JsonView
 import com.mehdiflix.mehdiflix.Views
-import com.mehdiflix.mehdiflix.domain.Bill
-import com.mehdiflix.mehdiflix.domain.Series
-import com.mehdiflix.mehdiflix.domain.User
+import com.mehdiflix.mehdiflix.domain.*
 import com.mehdiflix.mehdiflix.services.SeriesService
 import com.mehdiflix.mehdiflix.services.UserService
 import com.mehdiflix.mehdiflix.services.UserService.UsernameAlreadyExistsException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.servlet.function.EntityResponse
 import java.net.URI
 
 @RestController
@@ -58,7 +55,7 @@ class UserController(val us: UserService) {
     }
 
     @GetMapping("/{userId}/addedSeries") @JsonView(Views.WithId::class)
-    fun addedSeriesOfUser(@PathVariable userId: Long): ResponseEntity<List<Series>> {
+    fun addedSeriesOfUser(@PathVariable userId: Long): ResponseEntity<Set<Series>> {
         try {
             val series = us.getAddedSeriesOfUser(userId)
             return ResponseEntity.ok(series)
@@ -82,7 +79,7 @@ class UserController(val us: UserService) {
 
 
     @GetMapping("/{userId}/bills") @JsonView(Views.WithId::class)
-    fun getBills(@PathVariable userId: Long): ResponseEntity<List<Bill>> {
+    fun getBills(@PathVariable userId: Long): ResponseEntity<Set<Bill>> {
         try {
             val bills = us.getUserBills(userId)
             return ResponseEntity.ok(bills)
@@ -107,9 +104,9 @@ class UserController(val us: UserService) {
             return ResponseEntity.ok().build()
         } catch (_: UserService.NoUserWithIdException) {
         } catch (_: SeriesService.NoSeriesWithIdException) {
-        } catch (_: User.SeasonNumberNotInSeriesException) {
-        } catch (_: User.EpisodeNumberNotInSeasonException) {
-        } catch (_: User.SeriesNotAddedException) {}
+        } catch (_: SeasonNumberNotInSeriesException) {
+        } catch (_: EpisodeNumberNotInSeasonException) {
+        } catch (_: SeriesNotAddedException) {}
         return ResponseEntity.notFound().build()
     }
 }
