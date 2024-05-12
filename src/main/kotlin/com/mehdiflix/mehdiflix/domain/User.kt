@@ -48,11 +48,18 @@ data class User(
     }
 
     val bills: List<Bill> get() {
-        return views.groupBy {
+        // Get View bills
+        val bills = views.groupBy {
             LocalDate.of(it.timestamp.year, it.timestamp.month.value, 1)
-        }.map {
-            Bill(it.key, it.value, subscriptionType)
-        }.ifEmpty { listOf(Bill.empty(subscriptionType)) }
+        }.map { Bill(it.key, it.value) }.toMutableList()
+
+        val emptyBill = Bill.empty(subscriptionType)
+
+        // Check if current month
+        if (emptyBill.date !in bills.map { it.date }) {
+            bills.add(emptyBill)
+        }
+        return bills
     }
 
     fun addSeries(series: Series) {
@@ -111,8 +118,6 @@ data class Bill(
     val date: LocalDate,
     @JsonView(Views.Public::class)
     val views: List<View>,
-    @JsonView(Views.Public::class)
-    val subscriptionType: SubscriptionType,
 ) {
     @get:JsonView(Views.Public::class)
     val total: BigDecimal get() {
@@ -125,12 +130,16 @@ data class Bill(
         }.sumOf { it.cost }
     }
 
+    @get:JsonView(Views.Public::class)
+    val subscriptionType: SubscriptionType get() {
+        return views.map { it.subscriptionType }.maxBy { it.fixedFee }
+    }
+
     companion object {
         fun empty(subscriptionType: SubscriptionType): Bill {
             val today = LocalDate.now()
             return Bill(
-                LocalDate.of(today.year, today.month, 1),
-                emptyList(), subscriptionType
+                LocalDate.of(today.year, today.month, 1), emptyList()
             )
         }
     }

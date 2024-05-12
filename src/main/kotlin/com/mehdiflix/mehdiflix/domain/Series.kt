@@ -14,11 +14,11 @@ data class Series (
     @JsonView(Views.Public::class)
     var description: String,
 
-    @JsonView(Views.Public::class)
-    var creators: Set<String>,
+    @ManyToMany @JsonView(Views.Public::class)
+    var creators: Set<Person>,
 
-    @JsonView(Views.Public::class)
-    var actors: Set<String>,
+    @ManyToMany @JsonView(Views.Public::class)
+    var actors: Set<Person>,
 
     @JsonView(Views.Public::class)
     var seriesType: SeriesType,
@@ -34,6 +34,21 @@ data class Series (
         return seriesType.episodePrice
     }
 }
+
+@Entity
+@Table(uniqueConstraints = [
+    UniqueConstraint(columnNames = ["name", "surname", "secondSurname"])
+])
+data class Person(
+    @JsonView(Views.Public::class)
+    val name: String,
+    @JsonView(Views.Public::class)
+    val surname: String,
+    @JsonView(Views.Public::class)
+    val secondSurname: String? = null,
+    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    var id: Long? = null,
+)
 
 enum class SeriesType(val episodePrice: BigDecimal) {
     STANDARD(BigDecimal(0.5)),
