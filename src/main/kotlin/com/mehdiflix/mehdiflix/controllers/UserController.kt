@@ -15,9 +15,9 @@ import java.net.URI
 @RequestMapping("/users")
 class UserController(val us: UserService) {
 
-    @PutMapping("", consumes = ["application/json"])
+    @PostMapping("", consumes = ["application/json"])
     fun addUser(
-        @RequestBody @JsonView(Views.Public::class, Views.Private::class)
+        @RequestBody @JsonView(Views.Write::class)
         user: User
     ): ResponseEntity<User> {
         val added: User
@@ -30,7 +30,7 @@ class UserController(val us: UserService) {
         return ResponseEntity.created(resourceLink).build()
     }
 
-    @GetMapping("") @JsonView(Views.WithId::class)
+    @GetMapping("") @JsonView(Views.Read::class)
     fun getUser(
         @RequestParam(required = false)
         username: String?,
@@ -54,7 +54,7 @@ class UserController(val us: UserService) {
         }
     }
 
-    @GetMapping("/{userId}/addedSeries") @JsonView(Views.WithId::class)
+    @GetMapping("/{userId}/addedSeries") @JsonView(Views.Read::class)
     fun addedSeriesOfUser(@PathVariable userId: Long): ResponseEntity<Set<Series>> {
         try {
             val series = us.getAddedSeriesOfUser(userId)
@@ -65,7 +65,7 @@ class UserController(val us: UserService) {
     }
 
 
-    @PostMapping("/{userId}/addedSeries/{seriesId}")
+    @PutMapping("/{userId}/addedSeries/{seriesId}")
     fun addSeriesToUser(
         @PathVariable userId: Long, @PathVariable seriesId: Long
     ): ResponseEntity<Unit> {
@@ -78,17 +78,18 @@ class UserController(val us: UserService) {
     }
 
 
-    @GetMapping("/{userId}/bills") @JsonView(Views.WithId::class)
-    fun getBills(@PathVariable userId: Long): ResponseEntity<Set<Bill>> {
+    @GetMapping("/{userId}/bills")
+    fun getBills(@PathVariable userId: Long): ResponseEntity<List<Bill>> {
         try {
             val bills = us.getUserBills(userId)
-            return ResponseEntity.ok(bills)
+            val response = ResponseEntity.ok(bills)
+            return response
         } catch (_: UserService.NoUserWithIdException) {
             return ResponseEntity.notFound().build()
         }
     }
 
-    @PostMapping("/{userId}/addedSeries/{seriesId}/seasons/{seasonNumber}/episodes/{episodeNumber}")
+    @PutMapping("/{userId}/addedSeries/{seriesId}/seasons/{seasonNumber}/episodes/{episodeNumber}")
     fun addViewToUser(
         @PathVariable
         userId: Long,

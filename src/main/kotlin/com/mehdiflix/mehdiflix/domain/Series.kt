@@ -1,35 +1,36 @@
 package com.mehdiflix.mehdiflix.domain
 
 import com.fasterxml.jackson.annotation.JsonView
-import com.mehdiflix.mehdiflix.Views
+import com.mehdiflix.mehdiflix.*
 import jakarta.persistence.*
 import java.math.BigDecimal
 
 @Entity
 data class Series (
 
-    @JsonView(Views.Public::class)
+    @JsonView(SeriesViews.Title::class)
     var title: String,
 
-    @JsonView(Views.Public::class)
+    @JsonView(SeriesViews.Description::class)
     var description: String,
 
-    @ManyToMany @JsonView(Views.Public::class)
+    @ManyToMany @JsonView(SeriesViews.Creators::class)
     var creators: Set<Person>,
 
-    @ManyToMany @JsonView(Views.Public::class)
+    @ManyToMany @JsonView(SeriesViews.Actors::class)
     var actors: Set<Person>,
 
-    @JsonView(Views.Public::class)
+    @JsonView(SeriesViews.SeriesType::class)
     var seriesType: SeriesType,
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL]) @JsonView(SeriesViews.Seasons::class)
     var seasons: MutableList<Season> = mutableListOf(),
 
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue @JsonView(SeriesViews.Id::class)
     var id: Long? = null,
 ) {
-    @get:JsonView(Views.Public::class)
+
+    @get:JsonView(SeriesViews.Episode::class)
     val episodePrice: BigDecimal get() {
         return seriesType.episodePrice
     }
@@ -40,13 +41,17 @@ data class Series (
     UniqueConstraint(columnNames = ["name", "surname", "secondSurname"])
 ])
 data class Person(
-    @JsonView(Views.Public::class)
+
+    @JsonView(PersonViews.Name::class)
     val name: String,
-    @JsonView(Views.Public::class)
+
+    @JsonView(PersonViews.Surname::class)
     val surname: String,
-    @JsonView(Views.Public::class)
+
+    @JsonView(PersonViews.SecondSurname::class)
     val secondSurname: String? = null,
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+
+    @Id @GeneratedValue @JsonView(PersonViews.Id::class)
     var id: Long? = null,
 )
 
@@ -59,30 +64,29 @@ enum class SeriesType(val episodePrice: BigDecimal) {
 @Entity
 data class Season(
 
-    @JsonView(Views.Public::class)
+    @JsonView(SeasonViews.Number::class)
     var number: Int,
 
-    @JsonView(Views.Public::class)
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL]) @JsonView(SeasonViews.Episode::class)
     var episodes: MutableList<Episode>,
 
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue @JsonView(SeasonViews.Id::class)
     var id: Long? = null,
 )
 
 @Entity
 data class Episode(
 
-    @JsonView(Views.Public::class)
+    @JsonView(EpisodeViews.Number::class)
     var number: Int,
 
-    @JsonView(Views.Public::class)
+    @JsonView(EpisodeViews.Title::class)
     var title: String,
 
-    @JsonView(Views.Public::class)
+    @JsonView(EpisodeViews.Description::class)
     var description: String,
 
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue @JsonView(EpisodeViews.Id::class)
     var id: Long? = null,
 )
 

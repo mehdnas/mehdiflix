@@ -1,6 +1,10 @@
 package com.mehdiflix.mehdiflix.domain
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonView
+import com.mehdiflix.mehdiflix.BillViews
+import com.mehdiflix.mehdiflix.UserViews
+import com.mehdiflix.mehdiflix.ViewViews
 import com.mehdiflix.mehdiflix.Views
 import jakarta.persistence.*
 import java.math.BigDecimal
@@ -11,40 +15,43 @@ import java.time.ZonedDateTime
 @Table(name = "User_") // So it does not conflict with the reserved name of H2 database (USER)
 data class User(
 
-    @Column(unique = true) @JsonView(Views.Public::class)
+    @Column(unique = true) @JsonView(UserViews.Username::class)
     var username: String,
 
-    @JsonView(Views.Private::class)
+    @JsonView(UserViews.Password::class)
     var password: String,
 
-    @JsonView(Views.Private::class)
+    @JsonView(UserViews.BankAccountIBAN::class)
     var bankAccountIBAN: String,
 
-    @JsonView(Views.Public::class)
+    @JsonView(UserViews.SubscriptionType::class)
     var subscriptionType: SubscriptionType,
 
     @OneToMany(cascade = [CascadeType.ALL])
     var personalSpace: MutableSet<PersonalSpaceEntry> = mutableSetOf(),
 
-    @OneToMany(cascade = [CascadeType.ALL])
-    var bills: MutableSet<Bill> = mutableSetOf(Bill.empty(subscriptionType)),
+    @OneToMany(cascade = [CascadeType.ALL]) @JsonView(UserViews.Bills::class)
+    var bills: MutableList<Bill> = mutableListOf(Bill.empty(subscriptionType)),
 
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue @JsonView(UserViews.Id::class)
     var id: Long? = null,
 ) {
 
+    @get:JsonView(UserViews.StartedSeries::class)
     val startedSeries: Set<Series> get() {
         return personalSpace.filter {
-            it.views.isNotEmpty()
+            it.mostAdvancedView != null
         }.map { it.series }.toSet()
     }
 
+    @get:JsonView(UserViews.PendingSeries::class)
     val pendingSeries: Set<Series> get() {
         return personalSpace.filter {
-            it.views.isEmpty()
+            it.mostAdvancedView == null
         }.map { it.series }.toSet()
     }
 
+    @get:JsonView(UserViews.FinishedSeries::class)
     val finishedSeries: Set<Series> get() {
         return personalSpace.filter {
             it.isSeriesFinished
@@ -78,12 +85,13 @@ data class PersonalSpaceEntry(
     @ManyToOne
     var series: Series,
     @OneToMany(mappedBy = "personalSpaceEntry", cascade = [CascadeType.PERSIST])
-    var views: MutableSet<View> = mutableSetOf(),
-    @OneToOne
+    var views: MutableList<View> = mutableListOf(),
+    @OneToOne(cascade = [CascadeType.PERSIST])
     var mostAdvancedView: View? = null,
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue
     var id: Long? = null,
 ) {
+
     var isSeriesFinished: Boolean = false
         get() {
             if (!field) {
@@ -118,6 +126,10 @@ data class PersonalSpaceEntry(
         }
         return view
     }
+
+    override fun hashCode(): Int {
+        return series.hashCode()
+    }
 }
 
 enum class SubscriptionType(val fixedFee: BigDecimal) {
@@ -127,35 +139,51 @@ enum class SubscriptionType(val fixedFee: BigDecimal) {
 
 @Entity
 data class View(
-    @JsonView(Views.Public::class)
+
+    @JsonView(ViewViews.SeasonNumber::class)
     var seasonNumber: Int,
-    @JsonView(Views.Public::class)
+
+    @JsonView(ViewViews.EpisodeNumber::class)
     var episodeNumber: Int,
-    @JsonView(Views.Public::class)
+
+    @JsonView(ViewViews.TimeStamp::class)
     var timestamp: ZonedDateTime,
-    @JsonView(Views.Public::class)
+
+    @JsonView(ViewViews.Cost::class)
     var cost: BigDecimal,
+
     @ManyToOne
     var personalSpaceEntry: PersonalSpaceEntry,
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+
+    @Id @GeneratedValue @JsonView(ViewViews.Id::class)
     var id: Long? = null,
-)
+) {
+
+    @get:JsonView(ViewViews.Series::class)
+    val series: Series get() = personalSpaceEntry.series
+
+    override fun toString(): String {
+        return "View(seasonNumber=$seasonNumber, episodeNumber=$episodeNumber, timestamp=$timestamp, cost=$cost, series=${personalSpaceEntry.series} id=$id)"
+    }
+}
 
 @Entity
 data class Bill(
-    @JsonView(Views.Public::class)
+
+    @JsonView(BillViews.Date::class)
     var date: LocalDate,
 
-    @JsonView(Views.Public::class)
+    @JsonView(BillViews.SubscriptionType::class)
     var subscriptionType: SubscriptionType,
 
-    @OneToMany @JsonView(Views.Public::class)
-    val views: MutableSet<View> = mutableSetOf(),
+    @OneToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST]) @JsonView(BillViews.Views::class)
+    val views: MutableList<View> = mutableListOf(),
 
-    @Id @GeneratedValue @JsonView(Views.WithId::class)
+    @Id @GeneratedValue @JsonView(BillViews.Id::class)
     var id: Long? = null,
 ) {
-    @get:JsonView(Views.Public::class)
+
+    @get:JsonView(BillViews.Total::class)
     val total: BigDecimal get() {
         return if (subscriptionType == SubscriptionType.PREMIUM) {
             subscriptionType.fixedFee

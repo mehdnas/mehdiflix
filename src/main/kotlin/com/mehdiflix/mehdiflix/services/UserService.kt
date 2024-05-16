@@ -37,7 +37,7 @@ class UserService(val ur: UserRepository, val sr: SeriesRepository) {
         ur.save(user)
     }
 
-    fun getUserBills(userId: Long): Set<Bill> {
+    fun getUserBills(userId: Long): List<Bill> {
         val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
         return user.bills
     }
