@@ -9,10 +9,11 @@ class SeriesService(val sr: SeriesRepository) {
 
     class NoSeriesWithIdException : RuntimeException()
 
-    fun addSeries(series: Series) = sr.save(series)
+    fun addSeries(series: Series): Series {
+        return sr.save(series)
+    }
 
-    fun getAllSeries(): MutableList<Series> = sr.findAll()
-
-    fun getSeries(seriesId: Long): Series = sr.findById(seriesId)
-        .orElseThrow { NoSeriesWithIdException() }
+    fun getSeriesStartingWith(titleBeginning: String): List<Series> {
+        return sr.findSeriesByTitleStartingWithIgnoreCase(titleBeginning)
+    }
 }

@@ -30,7 +30,7 @@ data class Series (
     var id: Long? = null,
 ) {
 
-    @get:JsonView(SeriesViews.Episode::class)
+    @get:JsonView(SeriesViews.EpisodePrice::class)
     val episodePrice: BigDecimal get() {
         return seriesType.episodePrice
     }

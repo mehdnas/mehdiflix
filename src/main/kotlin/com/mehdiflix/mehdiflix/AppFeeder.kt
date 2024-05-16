@@ -4,8 +4,11 @@ import com.mehdiflix.mehdiflix.domain.*
 import com.mehdiflix.mehdiflix.repositories.PersonRepository
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
+import com.mehdiflix.mehdiflix.services.SeriesService
+import com.mehdiflix.mehdiflix.services.UserService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Component
@@ -13,14 +16,25 @@ class AppFeeder(
     private val ur: UserRepository,
     private val sr: SeriesRepository,
     private val pr: PersonRepository,
+    private val us: UserService,
 ) : CommandLineRunner {
 
     @Throws(Exception::class)
+    @Transactional
     override fun run(vararg args: String) {
         feedSeries()
         feedUsers()
-        testUserRepository()
+        addViews()
         println("Application fed")
+    }
+
+    private fun addViews() {
+        for (sId in 1..3) {
+            us.addSeriesToUser(1, sId.toLong())
+        }
+
+        us.addViewToUser(1, 2, 1, 1)
+        us.addViewToUser(1, 3, 2, 3)
     }
 
     private fun feedSeries() {
@@ -34,8 +48,8 @@ class AppFeeder(
         val a3 = pr.save(Person("Actor", "Three", "Sthree"))
 
         val s1 = Series(
-            "Tawny Ranking",
-            "Un Tawny Owl Perdido en su Mundo",
+            "The Big Bang Theory",
+            "Desc of The Big Bang Theory",
             setOf(c1, c2),
             setOf(a1, a2),
             SeriesType.STANDARD,
@@ -47,8 +61,8 @@ class AppFeeder(
             ),
         )
         val s2 = Series(
-            "Jayal en su Natural Habitat",
-            "Se sigue a Jayal para verlo en su natural habitat",
+            "The Soprano",
+            "Desc of The Soprano",
             setOf(c3),
             setOf(a1),
             SeriesType.SILVER,
@@ -62,8 +76,8 @@ class AppFeeder(
             ),
         )
         val s3 = Series(
-            "El Fichero de las Graficas",
-            "Unas graficas que se tiran como ficheros.",
+            "The Walking Dead",
+            "Desc of The Walking Dead",
             setOf(c1, c2, c3),
             setOf(a1, a2, a3),
             SeriesType.GOLD,
@@ -80,45 +94,55 @@ class AppFeeder(
                 ))
             ),
         )
+        val s4 = Series(
+            "Spongebob Square Pants",
+            "Desc of The Walking Dead",
+            setOf(c1, c2, c3),
+            setOf(a1, a2, a3),
+            SeriesType.GOLD,
+            mutableListOf(
+                Season(1, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                    Episode(3, "E3", "Desc E3"),
+                )),
+                Season(3, mutableListOf(
+                    Episode(1, "E1", "Desc E1"),
+                    Episode(2, "E2", "Desc E2"),
+                    Episode(3, "E3", "Desc E3"),
+                    Episode(4, "E1", "Desc E4"),
+                    Episode(5, "E2", "Desc E5"),
+                    Episode(6, "E3", "Desc E6"),
+                )),
+            ),
+        )
         sr.save(s1)
         sr.save(s2)
         sr.save(s3)
+        sr.save(s4)
     }
 
     private fun feedUsers() {
         val u1 = User(
-            "mehdi",
-            "m1234567",
-            "ES0000000001",
+            "pepe",
+            "pw1",
+            "ES01",
             SubscriptionType.STANDARD,
         )
         val u2 = User(
-            "jayal",
-            "j1234567",
-            "ES0000000002",
+            "juan",
+            "pw2",
+            "ES02",
             SubscriptionType.PREMIUM,
         )
         val u3 = User(
-            "tawny",
-            "t1234567",
-            "ES0000000003",
+            "ana",
+            "pw3",
+            "ES03",
             SubscriptionType.STANDARD,
         )
         ur.save(u1)
         ur.save(u2)
         ur.save(u3)
-    }
-
-
-    private fun testUserRepository() {
-        val user = ur.findUserByUsername("mehdi").orElseThrow()
-        assert(
-            user.username == "mehdi" &&
-            user.password == "m1234567" &&
-            user.bankAccountIBAN == "ES0000000001" &&
-            user.subscriptionType == SubscriptionType.STANDARD
-        )
-
-        assert(ur.existsByUsername("tawny"))
     }
 }

@@ -1,11 +1,9 @@
 package com.mehdiflix.mehdiflix.domain
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter
 import com.fasterxml.jackson.annotation.JsonView
 import com.mehdiflix.mehdiflix.BillViews
 import com.mehdiflix.mehdiflix.UserViews
 import com.mehdiflix.mehdiflix.ViewViews
-import com.mehdiflix.mehdiflix.Views
 import jakarta.persistence.*
 import java.math.BigDecimal
 import java.time.LocalDate
@@ -27,11 +25,11 @@ data class User(
     @JsonView(UserViews.SubscriptionType::class)
     var subscriptionType: SubscriptionType,
 
-    @OneToMany(cascade = [CascadeType.ALL])
+    @OneToMany(cascade = [CascadeType.ALL]) @JsonView(UserViews.PersonalSpace::class)
     var personalSpace: MutableSet<PersonalSpaceEntry> = mutableSetOf(),
 
     @OneToMany(cascade = [CascadeType.ALL]) @JsonView(UserViews.Bills::class)
-    var bills: MutableList<Bill> = mutableListOf(Bill.empty(subscriptionType)),
+    var bills: MutableSet<Bill> = mutableSetOf(Bill.empty(subscriptionType, ZonedDateTime.now())),
 
     @Id @GeneratedValue @JsonView(UserViews.Id::class)
     var id: Long? = null,
@@ -40,7 +38,7 @@ data class User(
     @get:JsonView(UserViews.StartedSeries::class)
     val startedSeries: Set<Series> get() {
         return personalSpace.filter {
-            it.mostAdvancedView != null
+            it.mostAdvancedView != null && !it.isSeriesFinished
         }.map { it.series }.toSet()
     }
 
@@ -58,7 +56,7 @@ data class User(
         }.map { it.series }.toSet()
     }
 
-    val addedSeries: Set<Series> get() {
+    private val addedSeries: Set<Series> get() {
         return personalSpace.map { it.series }.toSet()
     }
 
@@ -67,27 +65,42 @@ data class User(
     }
 
 
-    fun viewEpisode(series: Series, seasonNumber: Int, episodeNumber: Int) {
+    fun viewEpisode(
+        series: Series,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        timestamp: ZonedDateTime,
+    ) {
         if (series !in addedSeries) throw SeriesNotAddedException()
         val personalSpaceEntry = personalSpace.first { it.series == series }
-        val view = personalSpaceEntry.addView(series, seasonNumber, episodeNumber)
-        // This might be costly computationally
-        bills.maxBy { it.date }.views.add(view)
+        val view = personalSpaceEntry.addView(
+            series, seasonNumber, episodeNumber, timestamp
+        )
+        val bill = bills.find {
+            it.date.year == timestamp.year && it.date.month == timestamp.month
+        }?: Bill.empty(subscriptionType, timestamp)
+
+        bill.views.add(view)
     }
 }
 
+class SeriesAlreadyAddedToPersonalSpaceException: RuntimeException()
 class SeriesNotAddedException: RuntimeException()
 class SeasonNumberNotInSeriesException: RuntimeException()
 class EpisodeNumberNotInSeasonException: RuntimeException()
 
 @Entity
 data class PersonalSpaceEntry(
+
     @ManyToOne
     var series: Series,
+
     @OneToMany(mappedBy = "personalSpaceEntry", cascade = [CascadeType.PERSIST])
     var views: MutableList<View> = mutableListOf(),
+
     @OneToOne(cascade = [CascadeType.PERSIST])
     var mostAdvancedView: View? = null,
+
     @Id @GeneratedValue
     var id: Long? = null,
 ) {
@@ -104,7 +117,12 @@ data class PersonalSpaceEntry(
             return field
         }
 
-    fun addView(series: Series, seasonNumber: Int, episodeNumber: Int): View {
+    fun addView(
+        series: Series,
+        seasonNumber: Int,
+        episodeNumber: Int,
+        timestamp: ZonedDateTime
+    ): View {
         if (seasonNumber <= 0 || seasonNumber > series.seasons.size)
             throw SeasonNumberNotInSeriesException()
         if (episodeNumber <= 0 || episodeNumber > series.seasons[seasonNumber - 1].episodes.size)
@@ -112,7 +130,7 @@ data class PersonalSpaceEntry(
 
         val view = View(
             seasonNumber, episodeNumber,
-            ZonedDateTime.now(), series.seriesType.episodePrice,
+            timestamp, series.seriesType.episodePrice,
             this,
         )
         views.add(view)
@@ -129,6 +147,18 @@ data class PersonalSpaceEntry(
 
     override fun hashCode(): Int {
         return series.hashCode()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as PersonalSpaceEntry
+
+        if (series != other.series) return false
+        if (id != other.id) return false
+
+        return true
     }
 }
 
@@ -193,10 +223,9 @@ data class Bill(
     }
 
     companion object {
-        fun empty(subscriptionType: SubscriptionType): Bill {
-            val today = LocalDate.now()
+        fun empty(subscriptionType: SubscriptionType, timestamp: ZonedDateTime): Bill {
             return Bill(
-                LocalDate.of(today.year, today.month, 1), subscriptionType
+                LocalDate.of(timestamp.year, timestamp.month, 1), subscriptionType
             )
         }
     }

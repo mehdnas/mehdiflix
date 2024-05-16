@@ -1,12 +1,12 @@
 package com.mehdiflix.mehdiflix.services
 
 import com.mehdiflix.mehdiflix.domain.Bill
-import com.mehdiflix.mehdiflix.domain.Series
 import com.mehdiflix.mehdiflix.domain.User
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
 import com.mehdiflix.mehdiflix.services.SeriesService.NoSeriesWithIdException
 import org.springframework.stereotype.Service
+import java.time.ZonedDateTime
 
 @Service
 class UserService(val ur: UserRepository, val sr: SeriesRepository) {
@@ -21,13 +21,13 @@ class UserService(val ur: UserRepository, val sr: SeriesRepository) {
         return ur.save(user)
     }
 
-    fun getUser(username: String) = ur.findUserByUsername(username)
-        .orElseThrow { NoUserWithUserNameException() }
-    fun getUser(userId: Long) = ur.findById(userId).orElseThrow { NoUserWithIdException() }
+    fun getUser(username: String): User {
+        return ur.findUserByUsername(username)
+            .orElseThrow { NoUserWithUserNameException() }
+    }
 
-    fun getAddedSeriesOfUser(userId: Long): Set<Series> {
-        val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
-        return user.addedSeries
+    fun getUser(userId: Long): User {
+        return ur.findById(userId).orElseThrow { NoUserWithIdException() }
     }
 
     fun addSeriesToUser(userId: Long, seriesId: Long) {
@@ -37,18 +37,19 @@ class UserService(val ur: UserRepository, val sr: SeriesRepository) {
         ur.save(user)
     }
 
-    fun getUserBills(userId: Long): List<Bill> {
+    fun getUserBills(userId: Long): Set<Bill> {
         val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
         return user.bills
     }
 
     fun addViewToUser(
         userId: Long, seriesId: Long,
-        seasonNumber: Int, episodeNumber: Int
+        seasonNumber: Int, episodeNumber: Int,
+        timeStamp: ZonedDateTime = ZonedDateTime.now(),
     ) {
         val series = sr.findById(seriesId).orElseThrow { NoSeriesWithIdException() }
         val user = ur.findById(userId).orElseThrow { NoUserWithIdException() }
-        user.viewEpisode(series, seasonNumber, episodeNumber)
+        user.viewEpisode(series, seasonNumber, episodeNumber, timeStamp)
         ur.save(user)
     }
 }

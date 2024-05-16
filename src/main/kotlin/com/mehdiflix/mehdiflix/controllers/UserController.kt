@@ -15,22 +15,7 @@ import java.net.URI
 @RequestMapping("/users")
 class UserController(val us: UserService) {
 
-    @PostMapping("", consumes = ["application/json"])
-    fun addUser(
-        @RequestBody @JsonView(Views.Write::class)
-        user: User
-    ): ResponseEntity<User> {
-        val added: User
-        try {
-            added = us.addUser(user)
-        } catch (_: UsernameAlreadyExistsException) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
-        }
-        val resourceLink = URI("/users/${added.username}")
-        return ResponseEntity.created(resourceLink).build()
-    }
-
-    @GetMapping("") @JsonView(Views.Read::class)
+    @GetMapping("") @JsonView(Views.GetUser::class)
     fun getUser(
         @RequestParam(required = false)
         username: String?,
@@ -54,16 +39,20 @@ class UserController(val us: UserService) {
         }
     }
 
-    @GetMapping("/{userId}/addedSeries") @JsonView(Views.Read::class)
-    fun addedSeriesOfUser(@PathVariable userId: Long): ResponseEntity<Set<Series>> {
+    @PostMapping("", consumes = ["application/json"]) @JsonView(Views.GetUser::class)
+    fun addUser(
+        @RequestBody @JsonView(Views.PostUser::class)
+        user: User
+    ): ResponseEntity<User> {
+        val added: User
         try {
-            val series = us.getAddedSeriesOfUser(userId)
-            return ResponseEntity.ok(series)
-        } catch (_: UserService.NoUserWithIdException) {
-            return ResponseEntity.notFound().build()
+            added = us.addUser(user)
+        } catch (_: UsernameAlreadyExistsException) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build()
         }
+        val resourceLink = URI("/users/${added.username}")
+        return ResponseEntity.created(resourceLink).build()
     }
-
 
     @PutMapping("/{userId}/addedSeries/{seriesId}")
     fun addSeriesToUser(
@@ -78,12 +67,11 @@ class UserController(val us: UserService) {
     }
 
 
-    @GetMapping("/{userId}/bills")
-    fun getBills(@PathVariable userId: Long): ResponseEntity<List<Bill>> {
+    @GetMapping("/{userId}/bills") @JsonView(Views.GetBills::class)
+    fun getBills(@PathVariable userId: Long): ResponseEntity<Set<Bill>> {
         try {
             val bills = us.getUserBills(userId)
-            val response = ResponseEntity.ok(bills)
-            return response
+            return ResponseEntity.ok(bills)
         } catch (_: UserService.NoUserWithIdException) {
             return ResponseEntity.notFound().build()
         }

@@ -2,78 +2,84 @@ package com.mehdiflix.mehdiflix
 
 class Views {
 
-    interface Read:
-            SeriesViews.Title,
-            SeriesViews.Description,
-            SeriesViews.Creators,
-            SeriesViews.Actors,
-            SeriesViews.SeriesType,
-            SeriesViews.Episode,
-            SeriesViews.Seasons,
-            SeriesViews.Id,
+    interface GetSeries:
+        SeriesViews.Title,
+        SeriesViews.Description,
+        SeriesViews.Creators,
+        SeriesViews.Actors,
+        SeriesViews.SeriesType,
+        SeriesViews.Episode,
+        SeriesViews.Seasons,
+        SeriesViews.EpisodePrice,
+        SeriesViews.Id,
 
-            PersonViews.Name,
-            PersonViews.Surname,
-            PersonViews.SecondSurname,
-            PersonViews.Id,
+        PersonViews.Name,
+        PersonViews.Surname,
+        PersonViews.SecondSurname,
+        PersonViews.Id,
 
-            SeasonViews.Number,
-            SeasonViews.Episode,
-            SeasonViews.Id,
+        SeasonViews.Number,
+        SeasonViews.Episode,
+        SeasonViews.Id,
 
-            EpisodeViews.Number,
-            EpisodeViews.Title,
-            EpisodeViews.Description,
-            EpisodeViews.Id,
-
-            UserViews.Username,
-            UserViews.SubscriptionType,
-            UserViews.Bills,
-            UserViews.StartedSeries,
-            UserViews.PendingSeries,
-            UserViews.FinishedSeries,
-            UserViews.Id,
-
-            ViewViews.SeasonNumber,
-            ViewViews.EpisodeNumber,
-            ViewViews.TimeStamp,
-            ViewViews.Cost,
-            ViewViews.Series,
-            ViewViews.Id,
-
-            BillViews.Date,
-            BillViews.SubscriptionType,
-            BillViews.Views,
-            BillViews.Total,
-            BillViews.Id
+        EpisodeViews.Number,
+        EpisodeViews.Title,
+        EpisodeViews.Description,
+        EpisodeViews.Id
 
 
-    interface Write:
-            SeriesViews.Title,
-            SeriesViews.Description,
-            SeriesViews.Creators,
-            SeriesViews.Actors,
-            SeriesViews.SeriesType,
+    interface PostSeries:
+        SeriesViews.Title,
+        SeriesViews.Description,
+        SeriesViews.Creators,
+        SeriesViews.Actors,
+        SeriesViews.SeriesType,
+        SeriesViews.Episode,
+        SeriesViews.Seasons,
 
-            PersonViews.Name,
-            PersonViews.Surname,
-            PersonViews.SecondSurname,
+        PersonViews.Name,
+        PersonViews.Surname,
+        PersonViews.SecondSurname,
 
-            SeasonViews.Number,
-            SeasonViews.Episode,
+        SeasonViews.Number,
+        SeasonViews.Episode,
 
-            EpisodeViews.Number,
-            EpisodeViews.Title,
-            EpisodeViews.Description,
+        EpisodeViews.Number,
+        EpisodeViews.Title,
+        EpisodeViews.Description
 
-            UserViews.Username,
-            UserViews.Password,
-            UserViews.BankAccountIBAN,
-            UserViews.SubscriptionType
+    interface GetUser:
+        UserViews.Username,
+        UserViews.SubscriptionType,
+        UserViews.StartedSeries,
+        UserViews.PendingSeries,
+        UserViews.FinishedSeries,
+        UserViews.Id,
+        GetSeries
 
-    interface Private:
-            UserViews.Password,
-            UserViews.BankAccountIBAN
+    interface PostUser:
+        UserViews.Username,
+        UserViews.Password,
+        UserViews.BankAccountIBAN,
+        UserViews.SubscriptionType
+
+    interface GetBills:
+        BillViews.Date,
+        BillViews.SubscriptionType,
+        BillViews.Views,
+        BillViews.Total,
+        BillViews.Id,
+
+        ViewViews.SeasonNumber,
+        ViewViews.EpisodeNumber,
+        ViewViews.TimeStamp,
+        ViewViews.Cost,
+        ViewViews.Series,
+        ViewViews.Id,
+
+        SeriesViews.Title,
+        SeriesViews.SeriesType,
+        SeriesViews.Id
 }
 
 class SeriesViews {
@@ -84,6 +90,7 @@ class SeriesViews {
     interface SeriesType
     interface Episode
     interface Seasons
+    interface EpisodePrice
     interface Id
 }
 
@@ -112,6 +119,7 @@ class UserViews {
     interface Password
     interface BankAccountIBAN
     interface SubscriptionType
+    interface PersonalSpace
     interface Bills
     interface StartedSeries
     interface PendingSeries
