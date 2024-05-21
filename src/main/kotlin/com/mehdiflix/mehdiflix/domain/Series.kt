@@ -14,10 +14,10 @@ data class Series (
     @JsonView(SeriesViews.Description::class)
     var description: String,
 
-    @ManyToMany @JsonView(SeriesViews.Creators::class)
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE]) @JsonView(SeriesViews.Creators::class)
     var creators: Set<Person>,
 
-    @ManyToMany @JsonView(SeriesViews.Actors::class)
+    @ManyToMany(cascade = [CascadeType.PERSIST, CascadeType.MERGE]) @JsonView(SeriesViews.Actors::class)
     var actors: Set<Person>,
 
     @JsonView(SeriesViews.SeriesType::class)
@@ -37,9 +37,6 @@ data class Series (
 }
 
 @Entity
-@Table(uniqueConstraints = [
-    UniqueConstraint(columnNames = ["name", "surname", "secondSurname"])
-])
 data class Person(
 
     @JsonView(PersonViews.Name::class)

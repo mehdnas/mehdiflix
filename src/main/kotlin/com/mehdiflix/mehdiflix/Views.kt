@@ -2,21 +2,25 @@ package com.mehdiflix.mehdiflix
 
 class Views {
 
-    interface GetSeries:
+    interface GetSeriesStartingWith:
         SeriesViews.Title,
         SeriesViews.Description,
         SeriesViews.Creators,
         SeriesViews.Actors,
         SeriesViews.SeriesType,
-        SeriesViews.Episode,
-        SeriesViews.Seasons,
         SeriesViews.EpisodePrice,
         SeriesViews.Id,
 
         PersonViews.Name,
         PersonViews.Surname,
         PersonViews.SecondSurname,
-        PersonViews.Id,
+        PersonViews.Id
+
+
+    interface GetSeries:
+        GetSeriesStartingWith,
+        SeriesViews.Episode,
+        SeriesViews.Seasons,
 
         SeasonViews.Number,
         SeasonViews.Episode,
@@ -27,27 +31,6 @@ class Views {
         EpisodeViews.Description,
         EpisodeViews.Id
 
-
-    interface PostSeries:
-        SeriesViews.Title,
-        SeriesViews.Description,
-        SeriesViews.Creators,
-        SeriesViews.Actors,
-        SeriesViews.SeriesType,
-        SeriesViews.Episode,
-        SeriesViews.Seasons,
-
-        PersonViews.Name,
-        PersonViews.Surname,
-        PersonViews.SecondSurname,
-
-        SeasonViews.Number,
-        SeasonViews.Episode,
-
-        EpisodeViews.Number,
-        EpisodeViews.Title,
-        EpisodeViews.Description
-
     interface GetUser:
         UserViews.Username,
         UserViews.SubscriptionType,
@@ -55,7 +38,7 @@ class Views {
         UserViews.PendingSeries,
         UserViews.FinishedSeries,
         UserViews.Id,
-        GetSeries
+        GetSeriesStartingWith
 
     interface PostUser:
         UserViews.Username,

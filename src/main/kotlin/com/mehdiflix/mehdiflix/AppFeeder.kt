@@ -1,10 +1,8 @@
 package com.mehdiflix.mehdiflix
 
 import com.mehdiflix.mehdiflix.domain.*
-import com.mehdiflix.mehdiflix.repositories.PersonRepository
 import com.mehdiflix.mehdiflix.repositories.SeriesRepository
 import com.mehdiflix.mehdiflix.repositories.UserRepository
-import com.mehdiflix.mehdiflix.services.SeriesService
 import com.mehdiflix.mehdiflix.services.UserService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.stereotype.Component
@@ -15,7 +13,6 @@ import java.util.*
 class AppFeeder(
     private val ur: UserRepository,
     private val sr: SeriesRepository,
-    private val pr: PersonRepository,
     private val us: UserService,
 ) : CommandLineRunner {
 
@@ -39,13 +36,13 @@ class AppFeeder(
 
     private fun feedSeries() {
 
-        val c1 = pr.save(Person("Creator", "One"))
-        val c2 = pr.save(Person("Creator", "Two", "Stwo"))
-        val c3 = pr.save(Person("Creator", "Three", "Sthree"))
+        val c1 = Person("Creator", "One")
+        val c2 = Person("Creator", "Two", "Stwo")
+        val c3 = Person("Creator", "Three", "Sthree")
 
-        val a1 = pr.save(Person("Actor", "One"))
-        val a2 = pr.save(Person("Actor", "Two", "Stwo"))
-        val a3 = pr.save(Person("Actor", "Three", "Sthree"))
+        val a1 = Person("Actor", "One")
+        val a2 = Person("Actor", "Two", "Stwo")
+        val a3 = Person("Actor", "Three", "Sthree")
 
         val s1 = Series(
             "The Big Bang Theory",
