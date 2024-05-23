@@ -5,23 +5,31 @@ import com.mehdiflix.mehdiflix.Views
 import com.mehdiflix.mehdiflix.services.SeriesService
 import com.mehdiflix.mehdiflix.domain.Series
 import io.swagger.v3.oas.annotations.Operation
+import io.swagger.v3.oas.annotations.Parameter
 import io.swagger.v3.oas.annotations.media.ArraySchema
 import io.swagger.v3.oas.annotations.media.Content
 import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
-import org.springframework.http.HttpStatus
+import io.swagger.v3.oas.annotations.tags.Tag
 import org.springframework.http.ResponseEntity
-import org.springframework.web.ErrorResponse
 import org.springframework.web.bind.annotation.*
 
+@Tag(
+    name = "Series API",
+    description = "Series retrieval"
+)
 @RestControllerAdvice
 @RestController
 // @Cors
 @RequestMapping("/series")
 class SeriesController(val ss: SeriesService) {
 
-    @Operation(summary = "Get series with the title stating with the string")
+    @Operation(
+        summary = "Search series using title beginning.",
+        description = "Searches for series whose titles start with the string provided as parameter (titleBeginning). " +
+                "It is case insensitive."
+    )
     @ApiResponses(value = [
         ApiResponse(
             responseCode = "200",
@@ -39,15 +47,21 @@ class SeriesController(val ss: SeriesService) {
     ])
     @GetMapping("") @JsonView(Views.GetSeriesStartingWith::class)
     fun getSeriesStaringWith(
+
+        @Parameter(description = "The beginning of the title.")
         @RequestParam
         titleBeginning: String
+
     ): ResponseEntity<List<Series>> {
         if (titleBeginning.isBlank()) return ResponseEntity.badRequest().build()
         val series = ss.getSeriesStartingWith(titleBeginning)
         return ResponseEntity.ok(series)
     }
 
-    @Operation(summary = "Get series with id")
+    @Operation(
+        summary = "Get series with id",
+        description = "Get the series with the id provided as parameter.",
+    )
     @ApiResponses(value = [
         ApiResponse(
             responseCode = "200",
@@ -64,7 +78,13 @@ class SeriesController(val ss: SeriesService) {
         ),
     ])
     @GetMapping("/{id}") @JsonView(Views.GetSeries::class)
-    fun getSeries(@PathVariable id: Long): ResponseEntity<Series> {
+    fun getSeries(
+
+        @Parameter(description = "The id of the series.")
+        @PathVariable
+        id: Long
+
+    ): ResponseEntity<Series> {
         return try {
             ResponseEntity.ok(ss.getSeries(id))
         } catch (_: SeriesService.NoSeriesWithIdException) {

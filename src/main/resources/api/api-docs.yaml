@@ -1,0 +1,565 @@
+openapi: 3.0.1
+info:
+  title: Mehdiflix API
+  description: "API for Mehdiflix, a platform for on-demand streaming. The API allows\
+    \ for series retrieval and management of personal space of users."
+  version: "0.0"
+servers:
+- url: http://localhost:8080
+  description: Local host link.
+tags:
+- name: Series API
+  description: Series retrieval
+- name: User API
+  description: "Management of personal space of users, their views and bills."
+paths:
+  /users/{userId}/addedSeries/{seriesId}:
+    put:
+      tags:
+      - User API
+      summary: Add series to user personal space.
+      description: Adds the series with the provided id as parameter to the personal
+        space of the user whose id is provided as parameter.
+      operationId: addSeriesToUser
+      parameters:
+      - name: userId
+        in: path
+        description: Id of the user.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: seriesId
+        in: path
+        description: Id of the series.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "OK: Series added successfully."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+        "404":
+          description: "NOT_FOUND: User or series not found."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+  /users/{userId}/addedSeries/{seriesId}/seasons/{seasonNumber}/episodes/{episodeNumber}:
+    put:
+      tags:
+      - User API
+      summary: Add view of episode to user.
+      description: Adds a view of the episode from the indicated season of the series
+        to the user.
+      operationId: addViewToUser
+      parameters:
+      - name: userId
+        in: path
+        description: Id of the user.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: seriesId
+        in: path
+        description: Id of the series.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: seasonNumber
+        in: path
+        description: Number of the season.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      - name: episodeNumber
+        in: path
+        description: Number of the episode.
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: "OK: View added successfully."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+        "403":
+          description: "FORBIDEN: Series has not been added to user personal space."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+        "404":
+          description: "NOT_FOUND: User or series not found or series does not have\
+            \ the season or the episode."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit'
+  /users:
+    get:
+      tags:
+      - User API
+      summary: Get user with username or with id.
+      description: Gets the user with the username or id provided as parameter. Only
+        one of them should be provided.
+      operationId: getUser
+      parameters:
+      - name: username
+        in: query
+        description: Username of the user.
+        required: false
+        schema:
+          type: string
+      - name: userId
+        in: query
+        description: Id of the user.
+        required: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "OK: User found."
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User_GetUser'
+        "400":
+          description: "BAD_REQUEST: The username and id are not provided or both\
+            \ are provided."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit_GetUser'
+        "404":
+          description: "NOT_FOUND: User not found."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit_GetUser'
+  /users/{userId}/bills:
+    get:
+      tags:
+      - User API
+      summary: Get bills of user.
+      description: Gets the bills of the user whose id is provided as parameter.
+      operationId: getBills
+      parameters:
+      - name: userId
+        in: path
+        description: Id of the user.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "OK: user and its bills found."
+          content:
+            application/json.:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Bill_GetBills'
+        "404":
+          description: "NOT_FOUND: User not found."
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit_GetBills'
+  /series:
+    get:
+      tags:
+      - Series API
+      summary: Search series using title beginning.
+      description: Searches for series whose titles start with the string provided
+        as parameter (titleBeginning). It is case insensitive.
+      operationId: getSeriesStaringWith
+      parameters:
+      - name: titleBeginning
+        in: query
+        description: The beginning of the title.
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Series_GetSeriesStartingWith'
+        "400":
+          description: "BAD_REQUEST: titleBeginning is blank"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit_GetSeriesStartingWith'
+  /series/{id}:
+    get:
+      tags:
+      - Series API
+      summary: Get series with id
+      description: Get the series with the id provided as parameter.
+      operationId: getSeries
+      parameters:
+      - name: id
+        in: path
+        description: The id of the series.
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: "OK: Found series"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Series_GetSeries'
+        "404":
+          description: "NOT_FOUND: No series with id found"
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Unit_GetSeries'
+components:
+  schemas:
+    Unit:
+      type: object
+    Person_GetUser:
+      required:
+      - name
+      - surname
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        secondSurname:
+          type: string
+        id:
+          type: integer
+          format: int64
+    Series_GetUser:
+      required:
+      - actors
+      - creators
+      - description
+      - episodePrice
+      - seriesType
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        creators:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetUser'
+        actors:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetUser'
+        seriesType:
+          type: string
+          enum:
+          - STANDARD
+          - SILVER
+          - GOLD
+        id:
+          type: integer
+          format: int64
+        episodePrice:
+          type: number
+    User_GetUser:
+      required:
+      - finishedSeries
+      - pendingSeries
+      - startedSeries
+      - subscriptionType
+      - username
+      type: object
+      properties:
+        username:
+          type: string
+        subscriptionType:
+          type: string
+          enum:
+          - STANDARD
+          - PREMIUM
+        id:
+          type: integer
+          format: int64
+        startedSeries:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Series_GetUser'
+        pendingSeries:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Series_GetUser'
+        finishedSeries:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Series_GetUser'
+    Unit_GetUser:
+      type: object
+    Bill_GetBills:
+      required:
+      - date
+      - subscriptionType
+      - total
+      - views
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        subscriptionType:
+          type: string
+          enum:
+          - STANDARD
+          - PREMIUM
+        views:
+          type: array
+          items:
+            $ref: '#/components/schemas/View_GetBills'
+        id:
+          type: integer
+          format: int64
+        total:
+          type: number
+    PersonalSpaceEntry_GetBills:
+      required:
+      - isSeriesFinished
+      - series
+      - views
+      type: object
+      properties:
+        series:
+          $ref: '#/components/schemas/Series_GetBills'
+        views:
+          type: array
+          items:
+            $ref: '#/components/schemas/View_GetBills'
+        mostAdvancedView:
+          $ref: '#/components/schemas/View_GetBills'
+        id:
+          type: integer
+          format: int64
+        isSeriesFinished:
+          type: boolean
+        seriesFinished:
+          type: boolean
+          writeOnly: true
+    Series_GetBills:
+      required:
+      - seriesType
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        seriesType:
+          type: string
+          enum:
+          - STANDARD
+          - SILVER
+          - GOLD
+        id:
+          type: integer
+          format: int64
+    View_GetBills:
+      required:
+      - cost
+      - episodeNumber
+      - personalSpaceEntry
+      - seasonNumber
+      - series
+      - timestamp
+      type: object
+      properties:
+        seasonNumber:
+          type: integer
+          format: int32
+        episodeNumber:
+          type: integer
+          format: int32
+        timestamp:
+          type: string
+          format: date-time
+        cost:
+          type: number
+        personalSpaceEntry:
+          $ref: '#/components/schemas/PersonalSpaceEntry_GetBills'
+        id:
+          type: integer
+          format: int64
+        series:
+          $ref: '#/components/schemas/Series_GetBills'
+    Unit_GetBills:
+      type: object
+    Person_GetSeriesStartingWith:
+      required:
+      - name
+      - surname
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        secondSurname:
+          type: string
+        id:
+          type: integer
+          format: int64
+    Series_GetSeriesStartingWith:
+      required:
+      - actors
+      - creators
+      - description
+      - episodePrice
+      - seriesType
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        creators:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetSeriesStartingWith'
+        actors:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetSeriesStartingWith'
+        seriesType:
+          type: string
+          enum:
+          - STANDARD
+          - SILVER
+          - GOLD
+        id:
+          type: integer
+          format: int64
+        episodePrice:
+          type: number
+    Unit_GetSeriesStartingWith:
+      type: object
+    Episode_GetSeries:
+      required:
+      - description
+      - number
+      - title
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int32
+        title:
+          type: string
+        description:
+          type: string
+        id:
+          type: integer
+          format: int64
+    Person_GetSeries:
+      required:
+      - name
+      - surname
+      type: object
+      properties:
+        name:
+          type: string
+        surname:
+          type: string
+        secondSurname:
+          type: string
+        id:
+          type: integer
+          format: int64
+    Season_GetSeries:
+      required:
+      - episodes
+      - number
+      type: object
+      properties:
+        number:
+          type: integer
+          format: int32
+        episodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Episode_GetSeries'
+        id:
+          type: integer
+          format: int64
+    Series_GetSeries:
+      required:
+      - actors
+      - creators
+      - description
+      - episodePrice
+      - seasons
+      - seriesType
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        creators:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetSeries'
+        actors:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/Person_GetSeries'
+        seriesType:
+          type: string
+          enum:
+          - STANDARD
+          - SILVER
+          - GOLD
+        seasons:
+          type: array
+          items:
+            $ref: '#/components/schemas/Season_GetSeries'
+        id:
+          type: integer
+          format: int64
+        episodePrice:
+          type: number
+    Unit_GetSeries:
+      type: object
