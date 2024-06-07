@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*
     description = "Series retrieval"
 )
 @RestControllerAdvice
+@CrossOrigin(origins=["http://localhost:4200"])
 @RestController
 // @Cors
 @RequestMapping("/series")

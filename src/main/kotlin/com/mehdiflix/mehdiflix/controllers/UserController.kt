@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*
 )
 @RestControllerAdvice
 @RestController
-// @Cors
+@CrossOrigin(origins=["http://localhost:4200"])
 @RequestMapping("/users")
 class UserController(val us: UserService) {
 
