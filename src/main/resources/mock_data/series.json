@@ -1,0 +1,672 @@
+[
+  {
+    "title": "Friends",
+    "description": "Follows the personal and professional lives of six twenty to thirty-something-year-old friends living in Manhattan.",
+    "creators": [
+      {"firstName": "David", "lastName": "Crane"},
+      {"firstName": "Marta", "lastName": "Kauffman"}
+    ],
+    "actors": [
+      {"firstName": "Jennifer", "lastName": "Aniston"},
+      {"firstName": "Courteney", "lastName": "Cox"},
+      {"firstName": "Lisa", "lastName": "Kudrow"}
+    ],
+    "seriesType": "STANDARD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The One Where It All Began", "description": "Rachel runs from her wedding and bumps into her old friend Monica."},
+          {"number": 2, "title": "The One with the Sonogram at the End", "description": "Ross finds out his ex-wife is pregnant."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Breaking Bad",
+    "description": "A high school chemistry teacher turned methamphetamine producer navigates the dangers of the drug trade.",
+    "creators": [
+      {"firstName": "Vince", "lastName": "Gilligan"}
+    ],
+    "actors": [
+      {"firstName": "Bryan", "lastName": "Cranston"},
+      {"firstName": "Aaron", "lastName": "Paul"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "Walter White, a high school chemistry teacher, learns he has terminal lung cancer."},
+          {"number": 2, "title": "Cat's in the Bag...", "description": "Walt and Jesse attempt to dispose of the bodies from the previous episode."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Seven Thirty-Seven", "description": "Walt and Jesse are taken hostage by Tuco Salamanca."},
+          {"number": 2, "title": "Grilled", "description": "Walt and Jesse are held captive by Tuco, who questions their loyalty."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Game of Thrones",
+    "description": "Nine noble families fight for control over the lands of Westeros, while an ancient enemy returns after being dormant for millennia.",
+    "creators": [
+      {"firstName": "David", "lastName": "Benioff"},
+      {"firstName": "D.B.", "lastName": "Weiss"}
+    ],
+    "actors": [
+      {"firstName": "Emilia", "lastName": "Clarke"},
+      {"firstName": "Peter", "lastName": "Dinklage"},
+      {"firstName": "Kit", "lastName": "Harington"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Winter Is Coming", "description": "Eddard Stark is torn between his family and an old friend when asked to serve at the side of King Robert Baratheon."},
+          {"number": 2, "title": "The Kingsroad", "description": "Bran's fate remains in doubt."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "The North Remembers", "description": "Tyrion arrives in King's Landing to counsel Joffrey and clashes with Cersei."},
+          {"number": 2, "title": "The Night Lands", "description": "Arya shares a secret with a recruit bound for the Night's Watch."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Office",
+    "description": "A mockumentary on a group of typical office workers, where the workday consists of ego clashes, inappropriate behavior, and tedium.",
+    "creators": [
+      {"firstName": "Greg", "lastName": "Daniels"}
+    ],
+    "actors": [
+      {"firstName": "Steve", "lastName": "Carell"},
+      {"firstName": "Rainn", "lastName": "Wilson"},
+      {"firstName": "John", "lastName": "Krasinski"}
+    ],
+    "seriesType": "STANDARD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "A documentary crew films Dunder Mifflin's Scranton branch."},
+          {"number": 2, "title": "Diversity Day", "description": "Michael's off color remark puts a sensitivity trainer in the office for a presentation."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Stranger Things",
+    "description": "When a young boy disappears, his mother, a police chief, and his friends must confront terrifying supernatural forces in order to get him back.",
+    "creators": [
+      {"firstName": "Matt", "lastName": "Duffer"},
+      {"firstName": "Ross", "lastName": "Duffer"}
+    ],
+    "actors": [
+      {"firstName": "Winona", "lastName": "Ryder"},
+      {"firstName": "David", "lastName": "Harbour"},
+      {"firstName": "Finn", "lastName": "Wolfhard"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Chapter One: The Vanishing of Will Byers", "description": "A young boy, Will Byers, goes missing near a top-secret government laboratory."},
+          {"number": 2, "title": "Chapter Two: The Weirdo on Maple Street", "description": "Lucas, Mike, and Dustin try to talk to the girl they found in the woods."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Chapter One: MADMAX", "description": "As the town preps for Halloween, a high-scoring rival shakes things up at the arcade."},
+          {"number": 2, "title": "Chapter Two: Trick or Treat, Freak", "description": "After Will sees something terrible on trick-or-treat night, Mike wonders whether Eleven's still out there."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Crown",
+    "description": "Follows the political rivalries and romance of Queen Elizabeth II's reign and the events that shaped the second half of the twentieth century.",
+    "creators": [
+      {"firstName": "Peter", "lastName": "Morgan"}
+    ],
+    "actors": [
+      {"firstName": "Claire", "lastName": "Foy"},
+      {"firstName": "Olivia", "lastName": "Colman"},
+      {"firstName": "Matt", "lastName": "Smith"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Wolferton Splash", "description": "A young Princess Elizabeth marries Prince Philip."},
+          {"number": 2, "title": "Hyde Park Corner", "description": "With King George too ill to travel, Elizabeth and Philip embark on a four-continent Commonwealth tour."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Misadventure", "description": "As Philip leaves for a long tour, Elizabeth makes an upsetting discovery."},
+          {"number": 2, "title": "A Company of Men", "description": "Elizabeth feels disconnected from Philip during his tour."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Sherlock",
+    "description": "A modern update finds the famous sleuth and his doctor partner solving crime in 21st century London.",
+    "creators": [
+      {"firstName": "Steven", "lastName": "Moffat"},
+      {"firstName": "Mark", "lastName": "Gatiss"}
+    ],
+    "actors": [
+      {"firstName": "Benedict", "lastName": "Cumberbatch"},
+      {"firstName": "Martin", "lastName": "Freeman"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "A Study in Pink", "description": "A war hero, invalided home from Afghanistan, meets a strange but charismatic genius who is looking for a flatmate."},
+          {"number": 2, "title": "The Blind Banker", "description": "A banker in London is found dead inside a locked room."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "A Scandal in Belgravia", "description": "Sherlock is hired by a young woman to recover incriminating photos."},
+          {"number": 2, "title": "The Hounds of Baskerville", "description": "Sherlock and John investigate the terrorizing death of Sir Charles Baskerville."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Mandalorian",
+    "description": "The travels of a lone bounty hunter in the outer reaches of the galaxy, far from the authority of the New Republic.",
+    "creators": [
+      {"firstName": "Jon", "lastName": "Favreau"}
+    ],
+    "actors": [
+      {"firstName": "Pedro", "lastName": "Pascal"},
+      {"firstName": "Gina", "lastName": "Carano"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Chapter 1: The Mandalorian", "description": "A Mandalorian bounty hunter tracks a target for a well-paying client."},
+          {"number": 2, "title": "Chapter 2: The Child", "description": "Target in-hand, the Mandalorian must now contend with scavengers."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Chapter 9: The Marshal", "description": "The Mandalorian is drawn to the Outer Rim in search of others of his kind."},
+          {"number": 2, "title": "Chapter 10: The Passenger", "description": "The Mandalorian must ferry a passenger with precious cargo on a risky journey."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Witcher",
+    "description": "Geralt of Rivia, a solitary monster hunter, struggles to find his place in a world where people often prove more wicked than beasts.",
+    "creators": [
+      {"firstName": "Lauren", "lastName": "Schmidt Hissrich"}
+    ],
+    "actors": [
+      {"firstName": "Henry", "lastName": "Cavill"},
+      {"firstName": "Anya", "lastName": "Chalotra"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The End's Beginning", "description": "Geralt of Rivia battles a rogue mage."},
+          {"number": 2, "title": "Four Marks", "description": "Yennefer of Vengerberg is sold to Tissaia de Vries."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "A Grain of Truth", "description": "Geralt sets off with Ciri on a journey."},
+          {"number": 2, "title": "Kaer Morhen", "description": "Geralt brings Ciri to Kaer Morhen."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Simpsons",
+    "description": "The satiric adventures of a working-class family in the misfit city of Springfield.",
+    "creators": [
+      {"firstName": "Matt", "lastName": "Groening"}
+    ],
+    "actors": [
+      {"firstName": "Dan", "lastName": "Castellaneta"},
+      {"firstName": "Julie", "lastName": "Kavner"}
+    ],
+    "seriesType": "STANDARD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Simpsons Roasting on an Open Fire", "description": "Homer is forced to become a department store Santa."},
+          {"number": 2, "title": "Bart the Genius", "description": "Bart is sent to a school for gifted children."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Bart Gets an F", "description": "Bart faces the threat of repeating the fourth grade."},
+          {"number": 2, "title": "Simpson and Delilah", "description": "Homer's hair growth formula gives him a promotion."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Sopranos",
+    "description": "New Jersey mob boss Tony Soprano deals with personal and professional issues in his home and business life.",
+    "creators": [
+      {"firstName": "David", "lastName": "Chase"}
+    ],
+    "actors": [
+      {"firstName": "James", "lastName": "Gandolfini"},
+      {"firstName": "Lorraine", "lastName": "Bracco"},
+      {"firstName": "Edie", "lastName": "Falco"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The Sopranos", "description": "Tony Soprano is a mob boss who is dealing with family and professional issues."},
+          {"number": 2, "title": "46 Long", "description": "Tony deals with the reality of aging."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Guy Walks into a Psychiatrist's Office...", "description": "Tony starts therapy to cope with his family and work life."},
+          {"number": 2, "title": "Do Not Resuscitate", "description": "Junior's trial brings back some old memories."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "House of Cards",
+    "description": "A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him.",
+    "creators": [
+      {"firstName": "Beau", "lastName": "Willimon"}
+    ],
+    "actors": [
+      {"firstName": "Kevin", "lastName": "Spacey"},
+      {"firstName": "Robin", "lastName": "Wright"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Chapter 1", "description": "A Congressman works with his wife to seek revenge."},
+          {"number": 2, "title": "Chapter 2", "description": "Frank uses a young reporter to spin a story."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Chapter 14", "description": "Frank's ascendancy puts him at odds with new foes."},
+          {"number": 2, "title": "Chapter 15", "description": "Frank uses his new power to deal with old problems."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Parks and Recreation",
+    "description": "The absurd antics of an Indiana town's public officials as they pursue various projects to make their city a better place.",
+    "creators": [
+      {"firstName": "Greg", "lastName": "Daniels"},
+      {"firstName": "Michael", "lastName": "Schur"}
+    ],
+    "actors": [
+      {"firstName": "Amy", "lastName": "Poehler"},
+      {"firstName": "Rashida", "lastName": "Jones"},
+      {"firstName": "Nick", "lastName": "Offerman"}
+    ],
+    "seriesType": "STANDARD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "Leslie Knope tries to turn a construction pit into a park."},
+          {"number": 2, "title": "Canvassing", "description": "Leslie and her team try to gain support for the park project."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Mad Men",
+    "description": "A drama about one of New York's most prestigious ad agencies at the beginning of the 1960s, focusing on one of the firm's most mysterious but extremely talented ad executives, Donald Draper.",
+    "creators": [
+      {"firstName": "Matthew", "lastName": "Weiner"}
+    ],
+    "actors": [
+      {"firstName": "Jon", "lastName": "Hamm"},
+      {"firstName": "Elisabeth", "lastName": "Moss"},
+      {"firstName": "Vincent", "lastName": "Kartheiser"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Smoke Gets in Your Eyes", "description": "In 1960s New York City, the advertising world is booming."},
+          {"number": 2, "title": "Ladies Room", "description": "Don struggles to find balance between work and family."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "For Those Who Think Young", "description": "Don tries to balance his professional and personal lives."},
+          {"number": 2, "title": "Flight 1", "description": "Don takes a plane to California to try to woo new clients."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Marvelous Mrs. Maisel",
+    "description": "A housewife in 1958 decides to become a stand-up comic.",
+    "creators": [
+      {"firstName": "Amy", "lastName": "Sherman-Palladino"}
+    ],
+    "actors": [
+      {"firstName": "Rachel", "lastName": "Brosnahan"},
+      {"firstName": "Tony", "lastName": "Shalhoub"},
+      {"firstName": "Alex", "lastName": "Borstein"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "Miriam 'Midge' Maisel's life is on track."},
+          {"number": 2, "title": "Ya Shivu v Bolshom Dome Na Kholme", "description": "Midge and Susie continue to hone Midge's act."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Simone", "description": "Midge and Susie head to the Catskills for the summer."},
+          {"number": 2, "title": "Midnight at the Concord", "description": "Midge begins to make a name for herself."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Fleabag",
+    "description": "A dry-witted woman, known only as Fleabag, has no filter as she navigates life and love in London while trying to cope with tragedy.",
+    "creators": [
+      {"firstName": "Phoebe", "lastName": "Waller-Bridge"}
+    ],
+    "actors": [
+      {"firstName": "Phoebe", "lastName": "Waller-Bridge"},
+      {"firstName": "Sian", "lastName": "Clifford"},
+      {"firstName": "Olivia", "lastName": "Colman"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Episode 1", "description": "Fleabag navigates life in London."},
+          {"number": 2, "title": "Episode 2", "description": "Fleabag reconnects with an old flame."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Episode 1", "description": "Fleabag attends an awkward family dinner."},
+          {"number": 2, "title": "Episode 2", "description": "Fleabag pursues a forbidden relationship."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Queen's Gambit",
+    "description": "Orphaned at the tender age of nine, prodigious introvert Beth Harmon discovers and masters the game of chess in 1960s USA.",
+    "creators": [
+      {"firstName": "Scott", "lastName": "Frank"},
+      {"firstName": "Allan", "lastName": "Scott"}
+    ],
+    "actors": [
+      {"firstName": "Anya", "lastName": "Taylor-Joy"},
+      {"firstName": "Chloe", "lastName": "Pirrie"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Openings", "description": "Nine year-old Beth Harmon loses her mother."},
+          {"number": 2, "title": "Exchanges", "description": "Suddenly plunged into a confusing new life, Beth develops an unexpected friendship with the janitor."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Westworld",
+    "description": "Set at the intersection of the near future and the reimagined past, explore a world in which every human appetite can be indulged without consequence.",
+    "creators": [
+      {"firstName": "Lisa", "lastName": "Joy"},
+      {"firstName": "Jonathan", "lastName": "Nolan"}
+    ],
+    "actors": [
+      {"firstName": "Evan", "lastName": "Rachel Wood"},
+      {"firstName": "Thandiwe", "lastName": "Newton"},
+      {"firstName": "Jeffrey", "lastName": "Wright"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The Original", "description": "In Westworld, guests can indulge their wildest fantasies."},
+          {"number": 2, "title": "Chestnut", "description": "A new arrival, William, finds Westworld intriguing."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Journey into Night", "description": "The hosts of Westworld rebel."},
+          {"number": 2, "title": "Reunion", "description": "Dolores remembers past experiences."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Black Mirror",
+    "description": "An anthology series exploring a twisted, high-tech multiverse where humanity's greatest innovations and darkest instincts collide.",
+    "creators": [
+      {"firstName": "Charlie", "lastName": "Brooker"}
+    ],
+    "actors": [
+      {"firstName": "Daniel", "lastName": "Kaluuya"},
+      {"firstName": "Bryce", "lastName": "Dallas Howard"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The National Anthem", "description": "A twisted, high-tech world where humanity's greatest innovations and darkest instincts collide."},
+          {"number": 2, "title": "Fifteen Million Merits", "description": "In a bleak future, contestants compete for a chance to escape their harsh realities."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Be Right Back", "description": "A woman brings her deceased lover back to life with technology."},
+          {"number": 2, "title": "White Bear", "description": "A woman awakes in a strange world with no memory."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Handmaid's Tale",
+    "description": "Set in a dystopian future, a woman is forced to live as a concubine under a fundamentalist theocratic dictatorship.",
+    "creators": [
+      {"firstName": "Bruce", "lastName": "Miller"}
+    ],
+    "actors": [
+      {"firstName": "Elisabeth", "lastName": "Moss"},
+      {"firstName": "Yvonne", "lastName": "Strahovski"},
+      {"firstName": "Joseph", "lastName": "Fiennes"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Offred", "description": "A woman forced into servitude struggles to survive."},
+          {"number": 2, "title": "Birth Day", "description": "Offred and a fellow handmaid witness the birth of a child."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "June", "description": "Offred reckons with the consequences of a dangerous decision."},
+          {"number": 2, "title": "Unwomen", "description": "June navigates a dangerous new world."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "The Boys",
+    "description": "A group of vigilantes set out to take down corrupt superheroes who abuse their superpowers.",
+    "creators": [
+      {"firstName": "Eric", "lastName": "Kripke"}
+    ],
+    "actors": [
+      {"firstName": "Karl", "lastName": "Urban"},
+      {"firstName": "Jack", "lastName": "Quaid"},
+      {"firstName": "Antony", "lastName": "Starr"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The Name of the Game", "description": "Hughie Campbell suffers a devastating loss at the hands of a superhero."},
+          {"number": 2, "title": "Cherry", "description": "The Boys get their hands on Compound V, a potent drug."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "The Big Ride", "description": "The Boys lay low and plan their next move."},
+          {"number": 2, "title": "Proper Preparation and Planning", "description": "The Boys continue to battle Vought and its powerful superheroes."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Arrow",
+    "description": "A crime-fighting vigilante battles against crime and corruption.",
+    "creators": [
+      {"firstName": "Greg", "lastName": "Berlanti"},
+      {"firstName": "Marc", "lastName": "Guggenheim"},
+      {"firstName": "Andrew", "lastName": "Kreisberg"}
+    ],
+    "actors": [
+      {"firstName": "Stephen", "lastName": "Amell"},
+      {"firstName": "Katie", "lastName": "Cassidy"}
+    ],
+    "seriesType": "STANDARD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "The pilot episode."},
+          {"number": 2, "title": "Honor Thy Father", "description": "Oliver struggles to reconnect with his loved ones."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "City of Heroes", "description": "Oliver returns to Starling City."},
+          {"number": 2, "title": "Identity", "description": "Oliver battles a mysterious archer."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Agents of S.H.I.E.L.D.",
+    "description": "A team of agents investigate strange occurrences.",
+    "creators": [
+      {"firstName": "Joss", "lastName": "Whedon"},
+      {"firstName": "Jed", "lastName": "Whedon"},
+      {"firstName": "Maurissa", "lastName": "Tancharoen"}
+    ],
+    "actors": [
+      {"firstName": "Clark", "lastName": "Gregg"},
+      {"firstName": "Ming-Na", "lastName": "Wen"}
+    ],
+    "seriesType": "SILVER",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "Pilot", "description": "The pilot episode."},
+          {"number": 2, "title": "0-8-4", "description": "The team goes on a mission to Peru."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "Shadows", "description": "Coulson and his team try to rebuild S.H.I.E.L.D."},
+          {"number": 2, "title": "Heavy is the Head", "description": "Coulson faces a new threat."}
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Avatar: The Last Airbender",
+    "description": "A young boy discovers he is the Avatar and must save the world.",
+    "creators": [
+      {"firstName": "Michael", "lastName": "Dante DiMartino"},
+      {"firstName": "Bryan", "lastName": "Konietzko"}
+    ],
+    "actors": [
+      {"firstName": "Zach", "lastName": "Tyler"},
+      {"firstName": "Mae", "lastName": "Whitman"}
+    ],
+    "seriesType": "GOLD",
+    "seasons": [
+      {
+        "number": 1,
+        "episodes": [
+          {"number": 1, "title": "The Boy in the Iceberg", "description": "Aang is discovered trapped in an iceberg."},
+          {"number": 2, "title": "The Avatar Returns", "description": "Aang returns to his village."},
+          {"number": 3, "title": "The Southern Air Temple", "description": "Aang visits his old home."}
+        ]
+      },
+      {
+        "number": 2,
+        "episodes": [
+          {"number": 1, "title": "The Avatar State", "description": "Aang learns about the Avatar State."},
+          {"number": 2, "title": "The Cave of Two Lovers", "description": "Aang and the gang encounter mysterious tunnels."}
+        ]
+      }
+    ]
+  }
+]
