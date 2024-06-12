@@ -1,12 +1,9 @@
 package com.mehdiflix.mehdiflix.domain
 
 import com.fasterxml.jackson.annotation.JsonView
-import com.mehdiflix.mehdiflix.BillViews
 import com.mehdiflix.mehdiflix.UserViews
-import com.mehdiflix.mehdiflix.ViewViews
 import jakarta.persistence.*
 import java.math.BigDecimal
-import java.time.LocalDate
 import java.time.ZonedDateTime
 
 @Entity
@@ -84,149 +81,12 @@ data class User(
     }
 }
 
-class SeriesAlreadyAddedToPersonalSpaceException: RuntimeException()
 class SeriesNotAddedException: RuntimeException()
 class SeasonNumberNotInSeriesException: RuntimeException()
 class EpisodeNumberNotInSeasonException: RuntimeException()
-
-@Entity
-data class PersonalSpaceEntry(
-
-    @ManyToOne
-    var series: Series,
-
-    @OneToMany(mappedBy = "personalSpaceEntry", cascade = [CascadeType.PERSIST])
-    var views: MutableList<View> = mutableListOf(),
-
-    @OneToOne(cascade = [CascadeType.PERSIST])
-    var mostAdvancedView: View? = null,
-
-    @Id @GeneratedValue
-    var id: Long? = null,
-) {
-
-    var isSeriesFinished: Boolean = false
-        get() {
-            if (!field) {
-                val lastSeason = series.seasons.last()
-                val lastEpisode = lastSeason.episodes.last()
-
-                field = lastSeason.number == mostAdvancedView?.seasonNumber
-                        && lastEpisode.number == mostAdvancedView?.episodeNumber
-            }
-            return field
-        }
-
-    fun addView(
-        series: Series,
-        seasonNumber: Int,
-        episodeNumber: Int,
-        timestamp: ZonedDateTime
-    ): View {
-        if (seasonNumber <= 0 || seasonNumber > series.seasons.size)
-            throw SeasonNumberNotInSeriesException()
-        if (episodeNumber <= 0 || episodeNumber > series.seasons[seasonNumber - 1].episodes.size)
-            throw EpisodeNumberNotInSeasonException()
-
-        val view = View(
-            seasonNumber, episodeNumber,
-            timestamp, series.seriesType.episodePrice,
-            this,
-        )
-        views.add(view)
-
-        val isSameSeason = seasonNumber == (mostAdvancedView?.seasonNumber ?: -1)
-        val isMoreAdvancedSeason = seasonNumber > (mostAdvancedView?.seasonNumber ?: -1)
-        val isMoreAdvancedEpisode = episodeNumber > (mostAdvancedView?.episodeNumber ?: -1)
-
-        if (isMoreAdvancedSeason || (isSameSeason && isMoreAdvancedEpisode)) {
-            mostAdvancedView = view
-        }
-        return view
-    }
-
-    override fun hashCode(): Int {
-        return series.hashCode()
-    }
-
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
-
-        other as PersonalSpaceEntry
-
-        if (series != other.series) return false
-        if (id != other.id) return false
-
-        return true
-    }
-}
 
 enum class SubscriptionType(val fixedFee: BigDecimal) {
     STANDARD(BigDecimal(0.0)),
     PREMIUM(BigDecimal(20.0)),
 }
 
-@Entity
-data class View(
-
-    @JsonView(ViewViews.SeasonNumber::class)
-    var seasonNumber: Int,
-
-    @JsonView(ViewViews.EpisodeNumber::class)
-    var episodeNumber: Int,
-
-    @JsonView(ViewViews.TimeStamp::class)
-    var timestamp: ZonedDateTime,
-
-    @JsonView(ViewViews.Cost::class)
-    var cost: BigDecimal,
-
-    @ManyToOne
-    var personalSpaceEntry: PersonalSpaceEntry,
-
-    @Id @GeneratedValue @JsonView(ViewViews.Id::class)
-    var id: Long? = null,
-) {
-
-    @get:JsonView(ViewViews.Series::class)
-    val series: Series get() = personalSpaceEntry.series
-
-    override fun toString(): String {
-        return "View(seasonNumber=$seasonNumber, episodeNumber=$episodeNumber, timestamp=$timestamp, cost=$cost, series=${personalSpaceEntry.series} id=$id)"
-    }
-}
-
-@Entity
-data class Bill(
-
-    @JsonView(BillViews.Date::class)
-    var date: LocalDate,
-
-    @JsonView(BillViews.SubscriptionType::class)
-    var subscriptionType: SubscriptionType,
-
-    @OneToMany(cascade = [CascadeType.MERGE, CascadeType.PERSIST]) @JsonView(BillViews.Views::class)
-    val views: MutableList<View> = mutableListOf(),
-
-    @Id @GeneratedValue @JsonView(BillViews.Id::class)
-    var id: Long? = null,
-) {
-
-    @get:JsonView(BillViews.Total::class)
-    val total: BigDecimal get() {
-        return if (subscriptionType == SubscriptionType.PREMIUM) {
-            subscriptionType.fixedFee
-        } else {
-            views.sumOf { it.cost }
-        }
-    }
-
-    companion object {
-        fun empty(subscriptionType: SubscriptionType, timestamp: ZonedDateTime): Bill {
-            return Bill(
-                LocalDate.of(timestamp.year, timestamp.month, 1), subscriptionType
-            )
-        }
-    }
-}
